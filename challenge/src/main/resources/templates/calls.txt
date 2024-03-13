@@ -3,15 +3,15 @@ POST: http://localhost:8080/departments
   "departmentName": "mecanica"
 }
 
-POST: http://localhost:8080/users
+POST: http://localhost:8080/pessoas
 {
   "name":"john",
   "department_id": 1
 }
 
-POST:http://localhost:8080/jobs
+POST:http://localhost:8080/tarefas
 {
-  "user_id": 1,
+  "user_id": 1,-without                                         <- PUT: http://localhost:8080/tarefas/alocar/1
   "jobTitle": "Software Engineer",
   "jobDescription": "Developing awesome software",
   "jobExpectedDate": "2024-04-01T12:00:00",
@@ -19,3 +19,31 @@ POST:http://localhost:8080/jobs
   "finished": false,
   "department_id": 1
 }
+
+GET: http://localhost:8080/pessoas/gastos
+
+{
+  "name":"b",
+  "startDate": "2024-04-01T12:00:00",
+"endDate":"2024-04-01T12:00:00"
+}
+
+PUT:  http://localhost:8080/pessoas/2
+
+{
+  "name":"mariasss",
+  "department_id": 2
+}
+
+DELETE:  http://localhost:8080/pessoas/2
+{}
+
+PUT:   http://localhost:8080/tarefas/finalizar/1
+{}
+
+//--------GET
+
+http://localhost:8080/departments
+http://localhost:8080/tarefas/pendentes
+http://localhost:8080/pessoas
+http://localhost:8080/pessoas/gastos

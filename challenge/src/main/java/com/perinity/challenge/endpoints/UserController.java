@@ -2,13 +2,17 @@ package com.perinity.challenge.endpoints;
 
 import com.perinity.challenge.entities.Department;
 import com.perinity.challenge.entities.User;
+import com.perinity.challenge.entities.dtos.UserAverageHoursDto;
+import com.perinity.challenge.entities.dtos.UserDetailsDto;
 import com.perinity.challenge.entities.dtos.UserDto;
+import com.perinity.challenge.entities.dtos.UserPeriodDto;
 import com.perinity.challenge.repositories.DepartmentRepository;
 import com.perinity.challenge.repositories.UserRepository;
 import com.perinity.challenge.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,10 +20,10 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/pessoas")
 public class UserController {
-//    @Autowired
-//    private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 //    @Autowired
 //    private DepartmentRepository departmentRepository;
 
@@ -45,60 +49,34 @@ public class UserController {
         }
     }
 
-    @GetMapping
-    public void getAllUsers() {
-        //return userRepository.findAll();
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) throws Exception {
+    @Transactional
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) throws Exception {
         userService.checkAndUpdateUser(id, userDto);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> removeUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/gastos")
+    public ResponseEntity<?> requestUsersByPeriodAndName(@RequestBody UserPeriodDto userPeriodDto) {
+        List<UserAverageHoursDto> listUsersOnTime = userRepository.findUserByNameAndTime(userPeriodDto.getName(),userPeriodDto.getStartDate(),userPeriodDto.getEndDate());
+        return ResponseEntity.ok(listUsersOnTime);
+    }
+    @GetMapping
+    public ResponseEntity<?> requestUsersHours() {
+        List<UserDetailsDto> listUsers =userRepository.findUserWithHours();
+        return ResponseEntity.ok(listUsers);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUsers() {
+        List<User> l =userRepository.findAll();//stackoverflow need fix
+        return ResponseEntity.ok(l);
+    }
 }
-//
-//@Autowired
-//private UserRepository userRepository;
-//
-//@GetMapping("/getall")
-//public ResponseEntity<?> showPeopleList() {
-//
-//    Object a= new User();
-//    Object b=new Job();
-//    Object c=new Department();
-//    return ResponseEntity.ok(b);
-//}
-//
-//@GetMapping("/get/{id}")
-//public ResponseEntity<?> userPeopleById(@PathVariable Long id) {
-//    return ResponseEntity.ok(null);
-//}
-//
-//@PutMapping
-//@Transactional
-//public ResponseEntity<?> updateUser(@RequestBody Object data) {
-//    return ResponseEntity.ok(null);
-//}
-//
-//@PostMapping
-//@Transactional
-//public ResponseEntity<?> addUser(@RequestBody Object data, UriComponentsBuilder uriBuilder) {
-//
-////            var user = new User(data);
-////            userRepository.save(user);
-////            var uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
-//
-//    return ResponseEntity.created(null).body(null);
-//}
-//
-//@DeleteMapping("/{id}")
-//@Transactional
-//public ResponseEntity<?> removeUser(@PathVariable Long id) {
-//    return ResponseEntity.noContent().build();
-//}

@@ -28,7 +28,7 @@ public class Job implements Serializable {
     private String jobTitle;
     private String jobDescription;
     private LocalDateTime jobExpectedDate;
-    private Integer duration;
+    private Integer duration;//hoursSpent
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id")

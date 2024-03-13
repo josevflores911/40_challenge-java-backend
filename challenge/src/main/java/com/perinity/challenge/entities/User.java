@@ -27,8 +27,6 @@ public class User implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private List<Job> jobs = new ArrayList<>();
 
     @ManyToOne(fetch=FetchType.LAZY)
