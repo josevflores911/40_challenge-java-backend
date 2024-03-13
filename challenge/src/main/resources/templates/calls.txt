@@ -1,0 +1,21 @@
+POST: http://localhost:8080/departments
+{
+  "departmentName": "mecanica"
+}
+
+POST: http://localhost:8080/users
+{
+  "name":"john",
+  "department_id": 1
+}
+
+POST:http://localhost:8080/jobs
+{
+  "user_id": 1,
+  "jobTitle": "Software Engineer",
+  "jobDescription": "Developing awesome software",
+  "jobExpectedDate": "2024-04-01T12:00:00",
+  "duration": 12,
+  "finished": false,
+  "department_id": 1
+}
