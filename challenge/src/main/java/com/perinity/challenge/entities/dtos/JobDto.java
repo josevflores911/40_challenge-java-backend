@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobDto {

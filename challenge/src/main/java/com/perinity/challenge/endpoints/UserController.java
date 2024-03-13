@@ -1,12 +1,11 @@
 package com.perinity.challenge.endpoints;
 
-import com.perinity.challenge.entities.Department;
+
 import com.perinity.challenge.entities.User;
 import com.perinity.challenge.entities.dtos.UserAverageHoursDto;
 import com.perinity.challenge.entities.dtos.UserDetailsDto;
 import com.perinity.challenge.entities.dtos.UserDto;
 import com.perinity.challenge.entities.dtos.UserPeriodDto;
-import com.perinity.challenge.repositories.DepartmentRepository;
 import com.perinity.challenge.repositories.UserRepository;
 import com.perinity.challenge.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,24 +23,18 @@ import java.util.stream.Stream;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
-//    @Autowired
-//    private DepartmentRepository departmentRepository;
-
     @Autowired
     private UserService userService;
 
-
     @PostMapping
-    public ResponseEntity<?> addUser(@RequestBody final UserDto user) throws Exception {
+    public ResponseEntity<UserDto> addUser(@RequestBody final UserDto user) throws Exception {
         try {
             userService.createUser(user);
-//            final Department d =  departmentRepository.findById(user.getDepartment_id()).get();
-//            User u = new User(user.getName(),d);
-//            userRepository.save(u);
 
-            return Optional.of(user)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+            return ResponseEntity.ok(user);
+//            return Optional.of(user)
+//                    .map(ResponseEntity::ok)
+//                    .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 
         } catch (Exception e) {
             e.printStackTrace();

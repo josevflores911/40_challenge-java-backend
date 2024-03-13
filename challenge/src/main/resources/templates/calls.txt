@@ -47,3 +47,88 @@ http://localhost:8080/departments
 http://localhost:8080/tarefas/pendentes
 http://localhost:8080/pessoas
 http://localhost:8080/pessoas/gastos
+
+
+
+
+
+
+
+
+
+Precisamos criar uma API de gerenciamento de tarefas para disponibilizar para nossa equipe de front.
+
+
+
+Requisitos:
+
+- A API deve ser REST
+
+- Linguagem utilizada JAVA
+
+- Framework Quarkus* / SpringBoot.
+
+- Banco de dados PostgreSQL
+
+-Deve ter testes unitários
+
+
+
+- Cada pessoa terá um id, nome, departamento e  lista de tarefas
+
+- Cada tarefa terá id, título, descrição, prazo, departamento, duração, pessoa alocada e se já foi finalizado.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Escreva um algoritmo que receba dois arrays de inteiros desordenados e retorne um array que seja a união ordenada destes arrays. Desenvolva todo o algoritmo desde a entrada dos vetores até a saída do vetor final, não utilize métodos prontos do tipo sort().
+
+
+início
+    ler x
+    ler y
+    z = (x*y) + 5
+    se z <= 0 então
+        resposta =  ‘A’
+    senão
+        se z <= 100 então
+            resposta = ‘B’
+        senão
+            resposta = ‘C’
+        fim_se
+    fim_se
+    escrever z, resposta
+fim
+
+Faça um teste de mesa e complete o quadro a seguir para os seguintes valores:
+
+  X      |      Y     |    Z    |     Resposta
+  3      |      2      |          |
+150   |      3      |          |
+  7      |     -1      |          |
+ -2      |      5      |          |
+ 50     |      3      |          |
+
+
+ Montar select que retorne nome do departamento, quantidade de tarefas finalizadas e quantidade de tarefas não finalizadas e adicione o  resultado do select
+
+ Montar select que retorne a pessoa que mais gastou horas em janeiro de 2022 e adicione o resultado do select
+
+ Montar select que retorne título da tarefa, prazo, se tiver pessoa alocada na tarefa exibir como “Encaminhado para + nome do pessoa” caso contrário “Pendente” e total de horas que essa pessoa já gastou. Ordenar por prazo decrescente. E adicione o resultado do select

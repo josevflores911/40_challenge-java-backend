@@ -25,33 +25,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/tarefas")
 public class JobController {
     @Autowired
-    private JobRepository jobRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private DepartmentRepository departmentRepository;
-
-    @Autowired
     private JobService jobService;
 
     @PostMapping
-    public ResponseEntity<?> addJob(@RequestBody final JobDto job) throws Exception {
+    public ResponseEntity<JobDto> addJob(@RequestBody final JobDto job) throws Exception {
         try {
-            User u=null;
-            if(job.getUser_id()!=null){
-                 u = userRepository.findById(job.getUser_id()).orElseThrow(()->new Exception("user not found"));
-            }
-
-            final Department d = departmentRepository.findById(job.getDepartment_id()).orElseThrow(()->new Exception("department not found"));
-
-            Job j = new Job(u,d,job.getJobTitle(),job.getJobDescription(),job.getJobExpectedDate(),job.getDuration());
-
-            jobRepository.save(j);
-
+            jobService.addJob(job);
             return Optional.of(job)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -61,7 +43,6 @@ public class JobController {
     @PutMapping("/finalizar/{id}")
     @Transactional
     public ResponseEntity<?> updateFinalizeJob(@PathVariable Long id) throws Exception {
-
         if(jobService.finalizeJob(id))
             return ResponseEntity.ok().build();
         else
@@ -70,26 +51,14 @@ public class JobController {
 
     @PutMapping("/alocar/{departmentId}")
     @Transactional
-    public ResponseEntity<?> updateAllocateJob(@PathVariable Long departmentId) throws Exception {
-
-        Department department = departmentRepository.findById(departmentId).orElseThrow(()->new Exception("not department found "));
-
-        User user =userRepository.findAllByDepartment(department).stream().findAny().orElseThrow(()->new Exception("not user found"));
-
-       int value = jobRepository.alocarPessoaNaTarefa(departmentId,user,department);
-
-       return ResponseEntity.ok(value);
+    public ResponseEntity<Integer> updateAllocateJob(@PathVariable Long departmentId) throws Exception {
+        int value = jobService.allocateJob(departmentId);
+        return ResponseEntity.ok(value);
     }
 
     @GetMapping("/pendentes")
-    public ResponseEntity<?> getAllUsers() {
-        List<JobDto> incompleteJobs =jobRepository.listarTarefasPendentesComPrazosMaisAntigosLimit3().stream()
-                .map(e->   new JobDto(e.getDepartment().getId(), e.getJobTitle(), e.getJobDescription(), e.getJobExpectedDate(), e.getDuration(), e.isFinished()))
-                .collect(Collectors.toList()); ;
-
-
+    public ResponseEntity<List<JobDto>> getAllUsers() {
+        List<JobDto> incompleteJobs =jobService.getIncompleteJobs();
         return ResponseEntity.ok(incompleteJobs);
     }
-
-
 }
