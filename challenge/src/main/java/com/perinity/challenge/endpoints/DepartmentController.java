@@ -23,6 +23,7 @@ public class DepartmentController {
     private DepartmentRepository departmentRepository;
 
     @PostMapping
+    @Transactional
     public ResponseEntity<?> addDepartment(@RequestBody final DepartmentDto department) throws Exception {
         try {
             Department d = new Department(department.getDepartmentName());
