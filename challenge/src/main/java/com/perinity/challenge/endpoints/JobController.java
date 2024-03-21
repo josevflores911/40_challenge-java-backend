@@ -28,6 +28,7 @@ public class JobController {
     private JobService jobService;
 
     @PostMapping
+    @Transactional
     public ResponseEntity<JobDto> addJob(@RequestBody final JobDto job) throws Exception {
         try {
             jobService.addJob(job);
