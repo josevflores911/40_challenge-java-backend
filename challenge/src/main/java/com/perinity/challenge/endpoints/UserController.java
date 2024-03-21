@@ -27,6 +27,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
+    @Transactional
     public ResponseEntity<UserDto> addUser(@RequestBody final UserDto user) throws Exception {
         try {
             userService.createUser(user);
